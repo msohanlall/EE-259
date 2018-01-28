@@ -1,0 +1,312 @@
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+\_                                                                      \_
+\_    THE CITY COLLEGE OF NEW YORK, ELECTRICAL ENGINERING DEPARTMENT    \_
+\_               EE259, DAY-EVENING SECTIONS, Fall 2015                 \_
+\_                                                                      \_
+\_                              PROJECT 4                               \_
+\_                                                                      \_
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+If you write your class definition into a file called p4.h, you can see 
+how your program will be partially graded by using the following command:
+
+in Sun workstations: /usr/tools/EE259/IO/grademe_p4
+
+IMPORTANT NOTE: After you check your program by using grademe_p4, you still 
+have to send your program to ee259 account (with subject field: p4) to be 
+officially graded.  Otherwise, you will receive NO credit for your project!
+
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+\_                                                                    \_
+\_   In your e-mail, the subject field  should be: p4 	              \_
+\_                                                                    \_
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+GRADING:      	3 grademe tests: 45  points
+                5 secret tests: 55 points
+
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+PROJECT 4 DESCRIPTION:
+
+Write a C++ class definition called BOOK_OVER to perform several 
+operations related to a database of books. You should create this class 
+into a file called p4.h. The input file names are given by each declaration
+of object in the main function.  The output file name is out.4.  
+The prototype for the  class BOOK_OVER is defined as follows:
+
+  class BOOK_OVER{
+
+   public:      // public methods for this class
+
+        BOOK_OVER(char *);       // example: b.BOOK_OVER("file.A");
+				// constructor where the book data is
+				// given in file called file.A;
+
+	void GIVE_SIZE(void); // example: b.GIVE_SIZE();
+				// method to print the number of
+				// book in b's database;
+				// returns no values;
+
+        int operator == (BOOK_OVER &);  // example: if (b1 == b2)
+				// overloaded operator ==
+				// returns 1 if b1 and b2 have exactly
+				// the same ISBN numbers in the same order;
+				// returns 0 otherwise;
+
+	void operator -= (char *); // example: b1 -= "SHIKSPEAR";
+				// take the book(s) whose author is 
+				// "SHIKSPEAR" out of b1 database;
+				// returns no values;
+
+	void operator += (BOOK_OVER &); //example: b1 += b2;
+				// append the books in b2 into b1;
+				// there may be duplications;
+				// returns no values;
+
+   private: // private variables accessible by the methods only
+	    // (not from main)
+
+        int n;  // no of books
+	int ISBN[100]; // max 100 ISBN numbers
+        char TITLE[100][80]; // max 100 books, each title with max 80 chars
+			     // (there are no spaces in each title)
+	char AUTHOR[100][20];	// max 100 books, each author name with 
+				// max 20 chars 
+			        // (there are no spaces in each author name)
+	char PUBLISHER[100][15]; // max 100 books, each publisher name with
+				// max 15 chars
+			        // (there are no spaces in each publ. name)
+	int YEAR[100]; // max 100 publishing years
+	float PRICE[100]; // max 100 book prices, max $1000.
+   };
+
+The format of the file is as follows:
+
+	n
+	ISBN_1 TITLE_1 AUTHOR_1 PUBLISHER_1 YEAR_1 PRICE_1
+	ISBN_2 TITLE_2 AUTHOR_2 PUBLISHER_2 YEAR_2 PRICE_2
+	...
+	ISBN_n TITLE_n AUTHOR_n PUBLISHER_n YEAR_n PRICE_n
+	
+where n (between 0 and 99 inclusive) is an integer representing the number
+of books in the input file. In this file, only the ISBN numbers are unique.
+
+FOR SIMPLICITY THERE WILL BE NO INPUT ERRORS IN THE DATABASE.
+
+
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+In the constructor BOOK_OVER can be instantiated as follows:
+
+	BOOK_OVER b("file_name");
+
+where the character string "file_name" is the name of the file containing
+the database information for this book object; The constructor BOOK_OVER 
+should read the contents of the input file into the private data members of 
+BOOK_OVER class.
+
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+The definition of GIVE_SIZE method is as follows:
+
+        b.GIVE_SIZE();
+
+This method prints the number of books in b into out.4:
+
+	>>> THE NUMBER OF BOOKS IN DATABASE IS n.
+
+where integer n is the number of books in database of b.
+
+Make sure that every line into out.4 ends with an endl character.
+
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+An example for the overloaded operator == is as follows:
+
+        if (b1 == b2)
+
+where b1 and b2 are objects of class BOOK_OVER. The operator compares the
+ISBN numbers of the books in b1 and b2; if the number of books is the same
+in b1 and b2 AND the ISBN numbers are exactly in the same order in b1 and b2,
+overloaded operator returns 1. In this case, the output to out.4 file is:
+
+	>>> THERE ARE n BOOKS IN EACH DATABASE.
+	>>> THE BOOKS IN TWO DATABASES ARE THE SAME.
+
+Otherwise, the operator returns 0.  The output to out.4 is:
+
+	>>> THERE ARE n AND m BOOKS IN EACH DATABASE.
+	>>> THE BOOKS IN TWO DATABASES ARE DIFFERENT.
+
+where n and m are the number of books in b1 and b2, respectively.
+
+Make sure that every line into out.4 ends with an endl character.
+
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+An example for the overloaded operator -= is as follows:
+
+	b1 -= "author";
+
+where b1 is an object of class BOOK_OVER. The operator removes the book(s) 
+whose author is "author" out of b1 database; this operator returns no values;
+In this case, the output to out.4 file is:
+
+	>>> REMOVING BOOKS BY author:
+	>>> REMOVED: isbn_i title_i year_i pub_i
+	...
+	>>> REMOVED: isbn_k title_k year_k pub_k
+	>>> REMOVED k BOOKS BY author.
+
+The order to prnt the books, are the order they appear in the database.
+
+If there are no books by author, the output to out.4 file is:
+
+	>>> REMOVING BOOKS BY author:
+	>>> REMOVED NO BOOKS BY author.
+
+Make sure that every line into out.4 ends with an endl character.
+
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+An example for the overloaded operator += is as follows:
+
+        b1 += b2;
+
+where b1 and b2 are objects of class BOOK_OVER. The operator appends the
+the books in b2 into b1. The output format is:
+
+	>>> THERE ARE x BOOKS IN THE DATABASE:
+	>>> ISBN_i y_i t_i a_i pub_i
+	...
+	>>> ISBN_k y_k t_k a_k pub_k
+
+where x is n+m (0 <= n+m < 100) (it is possible that one of both databases
+may be empty after performing -= operations; hence n or m or both may be 0).
+
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+If there is an input error any of the method calls, the output to out.4 is:
+
+	>>> INPUT ERROR
+
+Make sure that it ends with endl character.
+
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+grademe_p4 will create the main function automatically when you run it.
+Your header file will be used by grademe_p4 as a header file called p4.h.
+Three examples of main functions utilizing such a header are below.
+:::::::::::::: EXAMPLE 1 ::::::::::::::::::::: 
+---------CONTENTS OF main1.cc FILE:-----------
+#include <iostream.h>
+#include "p4.h"
+// example program: main1.cc
+int main ()
+{
+	BOOK_OVER b1("in.41"),b2("in.42");  // instantiate object b1 and b2;
+					// the books are in in.41 and in.42;
+	if (b1 == b2)
+	{
+		b1.GIVE_SIZE();
+		b2.GIVE_SIZE();
+	}
+	else {}
+	return 0;
+}
+---------CONTENTS OF in.41 FILE:---------------
+2
+1111	LIAR_KING	SHIKSPEAR	PRACTICE_HALL	1990	9.99
+1133	WHO_CARES	BILL_GETS	MICRO_HARD	2000	0.99
+---------CONTENTS OF in.42 FILE:---------------
+2
+1111	LIAR_KING	SHIKSPEAR	PRACTICE_HALL	1990	9.99
+1133	WHO_CARES	BILL_GETS	MICRO_HARD	2000	0.99
+---------EXPECTED CONTENTS OF out.4 FILE:-----
+>>> THERE ARE 2 BOOKS IN EACH DATABASE.
+>>> THE BOOKS IN TWO DATABASES ARE THE SAME.
+>>> THE NUMBER OF BOOKS IN DATABASE IS 2.
+>>> THE NUMBER OF BOOKS IN DATABASE IS 2.
+:::::::::::::: EXAMPLE 2 ::::::::::::::::::::: 
+---------CONTENTS OF main2.cc FILE:-----------
+#include <iostream.h>
+#include "p4.h"
+// example program: main2.cc
+int main ()
+{
+        BOOK_OVER b1("in.41"),b2("in.42");  // instantiate object b1 and b2;
+                                        // the books are in in.41 and in.42;
+        b1 -= "BILL_GETS";
+        b2 -= "SHIKSPEAR";
+	if (b1 == b2)
+	{}
+	else
+	{
+		b1.GIVE_SIZE();
+        	b2.GIVE_SIZE();
+	}
+        return 0;
+}
+---------CONTENTS OF in.41 FILE:---------------
+4
+1111    LIAR_KING       SHIKSPEAR       PRACTICE_HALL   1990    9.99
+1133    WHO_CARES       BILL_GETS       MICRO_HARD      2000    0.99
+1234	NICE_TITLE	SHIKSPEAR	HILEY_JOHNS	1999	29.99
+1100	WHITE_STORIES	NEW_BUSH	WHITE_PRESS	2001	20.99
+---------CONTENTS OF in.42 FILE:---------------
+3
+1111    LIAR_KING       SHIKSPEAR       PRACTICE_HALL   1990    9.99
+1133    WHO_CARES       BILL_GETS       MICRO_HARD      2000    0.99
+1234	NICE_TITLE	SHIKSPEAR	HILEY_JOHNS	1999	29.99
+---------EXPECTED CONTENTS OF out.4 FILE:-----
+>>> REMOVING BOOKS BY BILL_GETS:
+>>> REMOVED: 1133	WHO_CARES	2000	MICRO_HARD
+>>> REMOVED 1 BOOKS BY BILL_GETS.
+>>> REMOVING BOOKS BY SHIKSPEAR:
+>>> REMOVED: 1111	LIAR_KING       1990	PRACTICE_HALL
+>>> REMOVED: 1234	NICE_TITLE	1999	HILEY_JOHNS
+>>> REMOVED 2 BOOKS BY SHIKSPEAR.
+>>> THERE ARE 3 AND 1 BOOKS IN EACH DATABASE.
+>>> THE BOOKS IN TWO DATABASES ARE DIFFERENT.
+>>> THE NUMBER OF BOOKS IN DATABASE IS 3.
+>>> THE NUMBER OF BOOKS IN DATABASE IS 1.
+:::::::::::::: EXAMPLE 3 ::::::::::::::::::::: 
+---------CONTENTS OF main3.cc FILE:-----------
+#include <iostream.h>
+#include "p4.h"
+// example program: main3.cc
+int main ()
+{
+        BOOK_OVER b1("in.41"),b2("in.42");  // instantiate object b1 and b2;
+                                        // the books are in in.41 and in.42;
+	b1.GIVE_SIZE();
+        b2.GIVE_SIZE();
+	b1 += b2;
+	b1.GIVE_SIZE();
+        b2.GIVE_SIZE();
+        return 0;
+}
+---------CONTENTS OF in.41 FILE:---------------
+4
+1111    LIAR_KING       SHIKSPEAR       PRACTICE_HALL   1990    9.99
+1133    WHO_CARES       BILL_GETS       MICRO_HARD      2000    0.99
+1234	NICE_TITLE	SHIKSPEAR	HILEY_JOHNS	1999	29.99
+1100	WHITE_STORIES	NEW_BUSH	WHITE_PRESS	2001	20.99
+---------CONTENTS OF in.42 FILE:---------------
+3
+1111    LIAR_KING       SHIKSPEAR       PRACTICE_HALL   1990    9.99
+1133    WHO_CARES       BILL_GETS       MICRO_HARD      2000    0.99
+1234	NICE_TITLE	SHIKSPEAR	HILEY_JOHNS	1999	29.99
+---------EXPECTED CONTENTS OF out.4 FILE:-----
+>>> THE NUMBER OF BOOKS IN DATABASE IS 4.
+>>> THE NUMBER OF BOOKS IN DATABASE IS 3.
+>>> THERE ARE 7 BOOKS IN THE DATABASE:
+>>> 1111	1990	LIAR_KING       SHIKSPEAR       PRACTICE_HALL
+>>> 1133	2000	WHO_CARES       BILL_GETS       MICRO_HARD
+>>> 1234	1999	NICE_TITLE	SHIKSPEAR	HILEY_JOHNS
+>>> 1100	2001	WHITE_STORIES	NEW_BUSH	WHITE_PRESS
+>>> 1111	1990	LIAR_KING       SHIKSPEAR       PRACTICE_HALL
+>>> 1133	2000	WHO_CARES       BILL_GETS       MICRO_HARD
+>>> 1234	1999	NICE_TITLE	SHIKSPEAR	HILEY_JOHNS
+>>> THE NUMBER OF BOOKS IN DATABASE IS 7.
+>>> THE NUMBER OF BOOKS IN DATABASE IS 3.

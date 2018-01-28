@@ -1,0 +1,324 @@
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+\_                                                                      \_
+\_    THE CITY COLLEGE OF NEW YORK, ELECTRICAL ENGINERING DEPARTMENT    \_
+\_               EE259, DAY-EVENING SECTIONS, Fall 2015                 \_
+\_                                                                      \_
+\_                              PROJECT 3                               \_
+\_                                                                      \_
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+If you write your class definition into a file called p3.h, you can see 
+how your program will be partially graded by using the following command:
+
+in Linux terminals: /usr/tools/EE259/IO/grademe_lp3
+
+(make sure that you type this command in the working directory containing
+p3.h file)
+
+A temporary grading result will be shown on your screen. For a detailed 
+report you can check the file called "report.p3" which will be created 
+automatically in your working directory. 
+
+IMPORTANT NOTE: After you check your program by using grademe_p3, you still 
+have to send your program to ee259 account (with subject field: p3) to be 
+officially graded.  Otherwise, you will receive NO credit for your project!
+
+GRADING:        3 grademe tests: 30 points
+                7 secret tests: 70 points
+
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+\_                                                                    \_
+\_   In your e-mail, the subject field  should be: p3 	              \_
+\_                                                                    \_
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+PROJECT 3 DESCRIPTION:
+
+Write a C++ class definition called BOOK_PROCESS to perform several 
+operations related to a database of books. You should create this class 
+into a file called p3.h. The input and output files are called in.3
+and out.3, respectively.  The prototype for the  class BOOK_PROCESS is 
+defined as follows:
+
+  class BOOK_PROCESS{
+
+   public:      // public interfaces for this class
+
+        BOOK_PROCESS(int);       // example: b.BOOK_PROCESS(x);
+				// constructor where integer x is the
+				// num of books in the database;
+
+        void PROCESS_PUBLISHER(char *);  // example: b.PROCESS_PUBLISHER(p);
+				// interface to sort the books from
+				// publisher p by their ISBN number
+				// in descending order;
+                                // returns no values;
+
+        void PROCESS_AUTHOR(char *);  // example: b.PROCESS_AUTHOR(a);
+				// interface to alphabetically sort the 
+				// books from author a by their title; 
+				// assume that an author will not have
+				// more than one book with the same title;
+                                // returns no values;
+
+        void PROCESS_PRICE(int);   // example: b.PROCESS_PRICE(y);
+				// interface to sort the books published
+				// in year y or later by their ISBN numbers
+				// in ascending order;
+                                // returns no values;
+
+	void PROCESS_PRINT();   // example: b.PROCESS_PRINT();
+				// print the private data
+	
+	void PROCESS_SORT(int); // example: b.PROCESS_SORT(y);
+				// if y == -1, the private data sorted
+				// in descending order based on ISBN numbers;
+                                // if y == 1, the private data sorted 
+				// in ascending order based on ISBN numbers;
+   private: // private variables accessible by the interfaces only
+	    // (not from main)
+
+        int n;  // no of books
+	int ISBN[100]; // max 100 ISBN numbers
+        char TITLE[100][80]; // max 100 books, each title with max 80 chars
+			     // (there are no spaces in each title)
+	char AUTHOR[100][20];	// max 100 books, each author name with 
+				// max 20 chars 
+			        // (there are no spaces in each author name)
+	char PUBLISHER[100][15]; // max 100 books, each publisher name with
+				// max 15 chars
+			        // (there are no spaces in each publ. name)
+	int YEAR[100]; // max 100 publishing years
+	float PRICE[100]; // max 100 book prices, max $1000.
+   };
+
+
+The format of the file called in.3 is as follows:
+
+	ISBN_1 TITLE_1 AUTHOR_1 PUBLISHER_1 YEAR_1 PRICE_1
+	ISBN_2 TITLE_2 AUTHOR_2 PUBLISHER_2 YEAR_2 PRICE_2
+	...
+	ISBN_n TITLE_n AUTHOR_n PUBLISHER_n YEAR_n PRICE_n
+	
+where n (between 0 and 99 inclusive) is an integer representing the number of 
+books in in.3 file. In in.3 file, only the ISBN numbers are unique.
+
+FOR SIMPLICITY THERE WILL BE NO INPUT ERRORS IN THE DATABASE.
+
+
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+In the constructor BOOK_PROCESS can be instantiated as follows:
+
+	BOOK_PROCESS b(x);
+
+where integer x (between 0 and 99 inclusive) is the number of books in
+in.3 file. The constructor BOOK_PROCESS should read the contents of in.3 file 
+into the private data members of BOOK_PROCESS class.
+
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+The definition of PROCESS_PUBLISHER interface is as follows:
+
+        b.PROCESS_PUBLISHER(p);
+
+where p is a character pointer for the publisher name.  This interface
+sorts the books from publisher given by p based on their ISBN number
+in ascending order. The output format to out.3 file is:
+
+	THE LIST OF BOOKS FROM PUBLISHER p (ASCENDING BY ISBN):
+	ISBN_k y_k t_k a_k
+	...
+	ISBN_j y_j t_j a_j
+
+where t_i, a_i, and p are character strings, ISBN_i and y_i (year) are 
+integers.
+
+If there is no book published by publisher p, the output to out.3 is:
+
+	THE LIST OF BOOKS FROM PUBLISHER p (ASCENDING BY ISBN):
+	THERE ARE NO BOOKS LISTED.
+
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+The definition of PORCESS_AUTHOR interface is as follows:
+
+        b.PROCESS_AUTHOR(a);
+
+where a is a character pointer for the author name.  This interface
+sorts the books from author a in alphabetical order based on book title.  
+For simplicity, the books titles from each author will be unique. The 
+output format to out.3 file is:
+
+	THE LIST OF BOOKS FROM AUTHOR a (SORTED ALPHABETICALLY):
+	ISBN_k y_k t_k p_k
+	...
+	ISBN_j y_j t_j p_k
+
+where t_i, p_i, and a are character strings, ISBN_i and y_i (year) are 
+integers.
+
+If there is no book published by author a, the output to out.3 is:
+
+	THE LIST OF BOOKS FROM AUTHOR a (SORTED ALPHABETICALLY):
+	THERE ARE NO BOOKS LISTED.
+
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+The definition of PORCESS_PRICE interface is as follows:
+
+        b.PROCESS_PRICE(y);
+
+where y is an integer for year. This interface sorts the books published in 
+year y or later by their ISBN numbers in ascending order. The output format
+to out.3 file is:
+
+	THE LIST OF BOOKS PUBLISHED YEAR y OR LATER (ASCENDING BY ISBN):
+	ISBN_k y_k a_k t_k p_k
+	...
+	ISBN_j y_j a_j t_j p_k
+
+where t_i, p_i, a_i, and a are character strings, y, ISBN_i and y_i (year) are 
+integers.
+
+If there is no book published year y or later, the output to out.3 is:
+
+	THE LIST OF BOOKS PUBLISHED YEAR y OR LATER (ASCENDING BY ISBN):
+	THERE ARE NO BOOKS LISTED.
+
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+The definition of PROCESS_SORT interface is as follows:
+
+	b.PROCESS_SORT(y);
+
+where b is an object of class BOOK_PROCESS and y is an integer.
+
+If y is -1, sort the book in descending order based on their ISBN
+numbers. The output to out.3 is:
+
+         OUTPUT FROM PROCESS_SORT:
+	 BOOKS SORTED IN DESCENDING ORDER.
+
+Similarly, if y is 1, sort the book in ascending order based on their ISBN
+numbers. The output to out.3 is:
+
+         OUTPUT FROM PROCESS_SORT:
+         BOOKS SORTED IN ASCENDING ORDER.
+
+AFTER SORTING, YOU WILL OVERWRITE THE ORIGINAL ORDER OF THE PRIVATE DATA 
+ELEMENTS.
+
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+The definition of PROCESS_PRINT interface is as follows:
+
+        b.PROCESS_PRINT();
+
+where b is an object of class BOOK_PROCESS. Print the books to  out.3
+with the following format:
+
+         OUTPUT FROM PROCESS_PRINT:
+         ISBN_k y_k t_k a_k p_k
+                 ...
+         ISBN_j y_j t_j a_j p_j
+
+where t_i, a_i, p_i are the character strings for title, author and publisher,
+and ISBN_i and y_i are integers for ISBN and year for book i, respectively.
+
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+If there are any errors in the input parameters, the output to the out.3 is:
+
+	INPUT ERROR. IGNORED THE INTERFACE CALL.
+
+FOR SIMPLICITY THERE WILL BE NO INPUT ERRORS IN THE DATABASE.
+
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+
+grademe_p3 (grademe_lp3) will create the main function automatically when you 
+run it. Your header file will be used by grademe_p3 as a header file called p3.h. 
+Three examples of main functions utilizing such a header are below.
+:::::::::::::: EXAMPLE 1 ::::::::::::::::::::: 
+---------CONTENTS OF main1.cc FILE:-----------
+#include <iostream.h>
+#include "p3.h"
+// example program: main1.cc
+int main ()
+{
+	BOOK_PROCESS b(5);  // instantiate an object b with 5 books
+
+	b.PROCESS_PUBLISHER("PRACTICE_HALL"); 
+
+	return 0;
+}
+---------CONTENTS OF in.3 FILE:---------------
+1111	LIAR_KING	SHIKSPEAR	PRACTICE_HALL	1990	9.99
+1133	WHO_CARES	BILL_GETS	MICRO_HARD	2000	0.99
+1234	NICE_TITLE	DA_VINCI	PRACTICE_HALL	1999	29.99
+1100	WHITE_STORIES	NEW_BUSH	WHITE_PRESS	2001	20.99
+1122	ROMAN_&_JULIET	SHIKSPEAR	PRACTICE_HALL	1991	11.99
+---------EXPECTED CONTENTS OF out.3 FILE:-----
+THE LIST OF BOOKS FROM PUBLISHER PRACTICE_HALL (ASCENDING BY ISBN):
+1111	1990	LIAR_KING	SHIKSPEAR
+1122	1991	ROMAN_&_JULIET	SHIKSPEAR
+1234	1999	NICE_TITLE	DA_VINCI
+:::::::::::::: EXAMPLE 2 ::::::::::::::::::::: 
+---------CONTENTS OF main2.cc FILE:-----------
+#include <iostream.h>
+#include "p3.h"
+// example program: main2.cc
+int main ()
+{
+	BOOK_PROCESS b(5);  // instantiate an object b with 5 books
+
+	b.PROCESS_AUTHOR("SHIKSPEAR");
+
+	return 0;
+}
+---------CONTENTS OF in.3 FILE:---------------
+1122	ROMAN_&_JULIET	SHIKSPEAR	PRACTICE_HALL	1991	11.99
+1111	LIAR_KING	SHIKSPEAR	PRACTICE_HALL	1990	9.99
+1133	WHO_CARES	BILL_GETS	MICRO_HARD	2000	0.99
+1234	NICE_TITLE	SHIKSPEAR	HILEY_JOHNS	1999	29.99
+1100	WHITE_STORIES	NEW_BUSH	WHITE_PRESS	2001	20.99
+---------EXPECTED CONTENTS OF out.3 FILE:-----
+THE LIST OF BOOKS FROM AUTHOR SHIKSPEAR (SORTED ALPHABETICALLY):
+1111	1990	LIAR_KING	PRACTICE_HALL
+1234	1999	NICE_TITLE	HILEY_JOHNS
+1122	1991	ROMAN_&_JULIET	PRACTICE_HALL
+:::::::::::::: EXAMPLE 3 ::::::::::::::::::::: 
+---------CONTENTS OF main3.cc FILE:-----------
+#include <iostream.h>
+#include "p3.h"
+// example program: main3.cc
+int main ()
+{
+	BOOK_PROCESS b(5);  // instantiate an object b with 5 books
+
+	b.PROCESS_PRICE(1993); 
+	b.PROCESS_SORT(1);
+	b.PROCESS_PRINT(); 
+
+	return 0;
+}
+---------CONTENTS OF in.3 FILE:---------------
+1122	ROMAN_&_JULIET	SHIKSPEAR	PRACTICE_HALL	1991	11.99
+1111	LIAR_KING	SHIKSPEAR	PRACTICE_HALL	1990	9.99
+1133	WHO_CARES	BILL_GETS	MICRO_HARD	2000	0.99
+1234	NICE_TITLE	DA_VINCI	HILEY_JOHNS	1999	29.99
+1100	WHITE_STORIES	NEW_BUSH	WHITE_PRESS	2001	20.99
+---------EXPECTED CONTENTS OF out.3 FILE:-----
+THE LIST OF BOOKS PUBLISHED YEAR 1993 OR LATER (ASCENDING BY ISBN):
+1100	2001	NEW_BUSH	WHITE_STORIES	WHITE_PRESS
+1133	2000	BILL_GETS	WHO_CARES	MICRO_HARD	
+1234	1999	DA_VINCI  	NICE_TITLE	HILEY_JOHNS 
+OUTPUT FROM PROCESS_SORT:
+BOOKS SORTED IN ASCENDING ORDER.
+OUTPUT FROM PROCESS_PRINT:
+1100	2001	WHITE_STORIES	NEW_BUSH	WHITE_PRESS
+1111	1990	LIAR_KING	SHIKSPEAR	PRACTICE_HALL
+1122	1991	ROMAN_&_JULIET	SHIKSPEAR	PRACTICE_HALL
+1133	2000	WHO_CARES	BILL_GETS	MICRO_HARD
+1234	1999	NICE_TITLE	DA_VINCI  	HILEY_JOHNS 

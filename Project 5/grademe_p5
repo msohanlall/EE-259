@@ -1,0 +1,124 @@
+#
+# the C script file written to test project {$proj} of ee259
+# instructor: Prof. Umit Uyar.
+# write by Su Min  
+#
+set proj = 5 
+# the following if statement is used before Spring 2000. 
+# And be commented out at Feb. 11, 2000
+# New if statement is added at same time
+# if ( $#argv == 0 ) then
+#         set filelist = "*_p${proj}.cc"
+#         echo  THE TESTING REPORT FOR EE259 PROJECT $proj >! $REPORT
+#         echo  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>> $REPORT
+
+
+if( $#argv >= 1) then
+	echo "*************************************************"
+	echo "Usage: /usr/tools/EE259/IO/grademe_p1" 
+	echo "*************************************************"
+	exit 1
+else
+#       set filelist = ( ${argv[*]}_p${proj}.cc )
+#       set filelist = ( ${argv[2]} )
+	set REPORT = report.p${proj}
+        echo  THE TESTING REPORT >! $REPORT
+endif
+if ( -e out.{$proj} ) rm out.{$proj}
+if ( -e runit ) rm runit
+set GRADE=0 
+foreach CNT ( 1 2 3 4 )
+        echo  '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'>> $REPORT
+        echo test report for EXAMPLE ${CNT} >> $REPORT
+	echo TESTING EXAMPLE ${CNT}
+	if ( -e runit ) rm runit
+	if (-e _000_p{$proj}_m${CNT}.cc ) rm _000_p{$proj}_m${CNT}.cc
+        cp /usr/tools/EE259/IO/main{$proj}_${CNT}.cc _000_p{$proj}_m${CNT}.cc
+        c++ _000_p{$proj}_m${CNT}.cc -o runit >&! error
+        set RET = $status 
+        if( $RET ) then
+		echo compilation failed >> $REPORT
+		echo compilation error msgs: >> $REPORT
+		cat error >> $REPORT
+                echo partial grade = 0 >> $REPORT
+	        echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'>> $REPORT
+		echo " "
+		echo compilation failed 
+		echo SEE $REPORT FILE IN THIS DIRECTORY FOR DETAILS OF YOUR GRADING
+		echo " "
+		if (-e _000_p{$proj}_m${CNT}.cc ) rm _000_p{$proj}_m${CNT}.cc
+                continue
+        else
+		if ( ${CNT} == 1) then
+			echo compilation succeeded >> $REPORT
+			@ GRADE = $GRADE  
+	
+#			echo compilation succeeded
+			echo compilation succeeded 
+		endif
+	endif
+	/bin/rm error
+		if ( -e in.${proj}1 ) rm in.${proj}1
+		if ( -e in.${proj}2 ) rm in.${proj}2
+		if ( -e out.${proj} ) rm out.${proj}
+		cp  /usr/tools/EE259/IO/in_${proj}_${CNT}1 in.${proj}1
+		cp  /usr/tools/EE259/IO/in_${proj}_${CNT}2 in.${proj}2
+                echo ++++++++++++++ RUNNING THE PROGRAM: testing ${CNT}   +++++++++++++
+		echo FIRST INPUT FILE : >> $REPORT
+		echo '---------------------------------------' >> $REPORT
+		cat in.${proj}1 >>$REPORT
+		echo SECOND INPUT FILE : >> $REPORT
+		echo '......................................' >> $REPORT
+		cat in.${proj}2 >>$REPORT
+		echo '---------------------------------------' >> $REPORT
+		runit
+		set RET = $status
+		if( -e core ) rm  core
+		echo $RET
+                if( $RET > 300 ) then
+			echo EXAMPLE_$CNT ABNORMAL RETURN: RETURN CODE = $RET>> $REPORT
+                        continue
+                else
+#			echo return_code=$RET
+			if ( -e out.{$proj} ) then
+				diff -w out.{$proj} /usr/tools/EE259/IO/out_{$proj}_$CNT >! error
+                        	if ( -z error ) then
+                                	echo test_$CNT succeeded >> $REPORT
+                                	echo test_$CNT succeeded and you get 10 points. 
+					@ GRADE = $GRADE + 10 
+                        	else
+					echo test_$CNT FAILED: >> $REPORT
+					echo test_$CNT FAILED: 
+					echo " " >> $REPORT
+					echo ================== YOUR ANSWER: ================== >> $REPORT
+					cat out.{$proj} >> $REPORT
+					echo " " >> $REPORT
+					echo ================== EXPECTED ANSWER: ================== >> $REPORT
+					cat /usr/tools/EE259/IO/out_{$proj}_${CNT} >> $REPORT
+					echo " " >> $REPORT
+					echo ==================  THE DIFFERENCE: =================== >> $REPORT
+					cat error >> $REPORT
+				endif
+			else
+				echo test_$CNT FAILED: OUTPUT FILE DOES NOT EXIST >> $REPORT
+			endif
+                endif
+		if(-e _000_p{$proj}_m${CNT}.cc ) rm _000_p{$proj}_m${CNT}.cc
+		if(-e OUT.5.TEMP ) rm OUT.5.TEMP
+		if(-e OUT_5_TEMP ) rm OUT_5_TEMP
+		if(-e in.51 ) rm in.51
+		if(-e in.52 ) rm in.52
+		if(-e out.5 ) rm out.5
+        end 	# end foreach loop
+	echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'>> $REPORT
+	echo  partial grade = $GRADE >> $REPORT
+	echo " "
+	echo  partial grade = $GRADE 
+	echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'>> $REPORT
+
+	if( -e runit) rm runit
+echo " "
+echo SEE $REPORT FILE IN THIS DIRECTORY FOR DETAILS OF YOUR GRADING
+echo PLEASE MAKE SURE THAT YOU SEND YOUR PROJECT {$proj} TO US FOR AN OFFICIAL GRADE
+echo " "
+# end

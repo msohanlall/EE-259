@@ -1,0 +1,261 @@
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+\_                                                                      \_
+\_    THE CITY COLLEGE OF NEW YORK, ELECTRICAL ENGINERING DEPARTMENT    \_
+\_               EE259, DAY-EVENING SECTIONS, Fall 2015                 \_
+\_                                                                      \_
+\_                              PROJECT 2                               \_
+\_                                                                      \_
+\_             DUE DATE: Thursday 9:00 PM Oct 08, 2015                  \_
+\_                                                                      \_
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+If you write your class definition into a file called p2.h, you can see 
+how your program will be partially graded by using the following command:
+
+in Sun workstations: /usr/tools/EE259/IO/grademe_p2
+ 
+Make sure that you type this command in the working directory containing
+p2.h file.
+
+A temporary grading result will be shown on your screen. For a detailed 
+report you can check the file called "report.p2" which will be created 
+automatically in your working directory. 
+
+IMPORTANT NOTE: After you check your program by using grademe_p2, you still 
+have to send your program to ee259 account (with subject field: p2) to be 
+officially graded.  Otherwise, you will receive NO credit for your project!
+
+GRADING:        3 grademe tests: 60 points
+                2 secret tests: 40 points
+
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+\_                                                                    \_
+\_   In your e-mail, the subject field  should be: p2 	              \_
+\_                                                                    \_
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+PROJECT 2 DESCRIPTION:
+
+Write a C++ class definition called BOOK_SORT to perform several 
+operations related to a database of books. You should create this class 
+into a file called p2.h. The input and output files are called in.2
+and out.2, respectively.  The prototype for the  class BOOK_SORT is 
+defined as follows:
+
+  class BOOK_SORT{
+
+   public:      // public methods for this class
+
+        BOOK_SORT(int);       // example: b.BOOK_SORT(x);
+				// constructor where integer x is the
+				// num of books in the database;
+
+        void SORT_ISBN(void);    // example: b.SORT_ISBN();
+				// method to sort the books by their 
+				// ISBN number from the smallest to the
+				// largest (i.e., ascending order);
+				// assume that each ISBN is unique;
+                                // returns no values;
+
+        void SORT_TITLE(void)    // example: b.SORT_TITLE();
+				// method to alphabetically sort the 
+				// books by their title; 
+				// assume that each title is unique;
+                                // returns no values;
+
+        void SORT_PRICE(void)    // example: b.SORT_PRICE();
+				// method to sort the books by their price
+				// in descending order;
+				// assume that each price is unique;
+                                // returns no values;
+
+   private: // private variables accessible by the methods only
+	    // (not from main)
+
+        int n;  // no of books
+	int ISBN[100]; // max 100 ISBN numbers
+        char TITLE[100][80]; // max 100 books, each title with max 80 chars
+			     // (there are no spaces in each title)
+	char AUTHOR[100][20];	// max 100 books, each author name with 
+				// max 20 chars 
+			        // (there are no spaces in each author name)
+	char PUBLISHER[100][20]; // max 100 books, each publisher name with
+				// max 10 chars
+			        // (there are no spaces in each publ. name)
+	int YEAR[100]; // max 100 publishing years
+	float PRICE[100]; // max 100 book prices
+   };
+
+
+The format of the file called in.2 is as follows:
+
+	ISBN_1 TITLE_1 AUTHOR_1 PUBLISHER_1 YEAR_1 PRICE_1
+	ISBN_2 TITLE_2 AUTHOR_2 PUBLISHER_2 YEAR_2 PRICE_2
+	...
+	ISBN_n TITLE_n AUTHOR_n PUBLISHER_n YEAR_n PRICE_n
+	
+where n (between 0 and 99 inclusive) is an integer representing the number of 
+books in in.2 file. In in.2 file, only the ISBN numbers and titles are unique.
+
+
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+In the constructor BOOK_SORT can be instantiated as follows:
+
+	BOOK_SORT b(x);
+
+where integer x (between 0 and 99 inclusive) is the number of books in
+in.2 file. The constructor BOOK_SORT should read the contents of in.2 file 
+into the private data members of BOOK_SORT class.
+
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+The definition of SORT_ISBN method is as follows:
+
+        b.SORT_ISBN();
+
+which sorts the books in the database by their ISBN numbers from the smallest
+to the largest (i.e., ascending order).  Note that each ISBN number is unique.
+The output format to out.2 file is:
+
+	THE LIST OF BOOKS BY ISBN (ASCENDING ORDER):
+	ISBN_k y_k t_k a_k p_k
+	...
+	ISBN_j y_j t_j a_j p_j
+
+where t_i, a_i, p_i are character strings, ISBN_i and y_i (year) are integers.
+
+Make sure that every line into out.2 ends with an endl character.
+
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+The definition of SORT_TITLE method is as follows:
+
+        b.SORT_TITLE();
+
+which alphabetically sorts the books by their title; for simplicity we
+assume that each title is unique.  The output format to out.2 file is:
+
+	THE LIST OF BOOKS BY THEIR TITLES (ALPHABETICAL ORDER):
+	t_k a_k y_k p_k pr_k USD
+	...
+	t_j a_j y_j p_j pr_j USD
+
+where t_i, a_i, p_i are character strings, y_i (year) is an integer,
+and pr_i (price) is a floating point number.
+
+Make sure that every line into out.2 ends with an endl character.
+
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+
+The definition of SORT_PRICE method is as follows:
+
+        b.SORT_PRICE();
+
+which sorts the books by their price in descending order. For simplicity,
+we assume that each price is unique. The output format to out.2 file is:
+
+	THE LIST OF BOOKS BY THEIR PRICES (DESCENDING ORDER):
+	pr_k USD t_k a_k y_k
+	...
+	pr_j USD t_j a_j y_j
+
+where t_i, a_i, are character strings, y_i (year) is an integer,
+and pr_i (price) is a floating point number.
+	
+Make sure that every line into out.2 ends with an endl character.
+
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+If there are any errors in the input parameters (such as negative ISBN,
+or too large price, etc.) the output to the out.2 is:
+
+	INPUT ERROR. IGNORED THE INTERFACE CALL.
+
+Make sure that every line into out.2 ends with an endl character.
+
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+
+grademe_p2 will create the main function automatically when you run it.
+Your header file will be used by grademe_p2 as a header file called p2.h.
+Three examples of main functions utilizing such a header are below.
+:::::::::::::: EXAMPLE 1 ::::::::::::::::::::: 
+---------CONTENTS OF main1.cc FILE:-----------
+#include <iostream.h>
+#include "p2.h"
+// example program: main1.cc
+int main ()
+{
+	BOOK_SORT b(5);  // instantiate an object b with 5 books
+
+	b.SORT_ISBN(); 
+
+	return 0;
+}
+---------CONTENTS OF in.2 FILE:---------------
+1122	ROMAN_&_JULIET	SHIKSPEAR	PRACTICE_HALL	1991	11.99
+1111	LIAR_KING	SHIKSPEAR	PRACTICE_HALL	1990	9.99
+1133	WHO_CARES	BILL_GETS	MICRO_HARD	2000	0.99
+1234	NICE_TITLE	DA_VINCI	HILEY_JOHNS	1999	29.99
+1100	WHITE_STORIES	NEW_BUSH	WHITE_PRESS	2001	20.99
+---------EXPECTED CONTENTS OF out.2 FILE:-----
+THE LIST OF BOOKS BY ISBN (ASCENDING ORDER):
+1100	2001	WHITE_STORIES	NEW_BUSH	WHITE_PRESS
+1111	1990	LIAR_KING	SHIKSPEAR	PRACTICE_HALL
+1122	1991	ROMAN_&_JULIET	SHIKSPEAR	PRACTICE_HALL
+1133	2000	WHO_CARES	BILL_GETS	MICRO_HARD
+1234	1999	NICE_TITLE	DA_VINCI	HILEY_JOHNS
+:::::::::::::: EXAMPLE 2 ::::::::::::::::::::: 
+---------CONTENTS OF main2.cc FILE:-----------
+#include <iostream.h>
+#include "p2.h"
+// example program: main2.cc
+int main ()
+{
+	BOOK_SORT b(5);  // instantiate an object b with 5 books
+
+	b.SORT_TITLE(); 
+
+	return 0;
+}
+---------CONTENTS OF in.2 FILE:---------------
+1122	ROMAN_&_JULIET	SHIKSPEAR	PRACTICE_HALL	1991	11.99
+1111	LIAR_KING	SHIKSPEAR	PRACTICE_HALL	1990	9.99
+1133	WHO_CARES	BILL_GETS	MICRO_HARD	2000	0.99
+1234	NICE_TITLE	DA_VINCI	HILEY_JOHNS	1999	29.99
+1100	WHITE_STORIES	NEW_BUSH	WHITE_PRESS	2001	20.99
+---------EXPECTED CONTENTS OF out.2 FILE:-----
+THE LIST OF BOOKS BY THEIR TITLES (ALPHABETICAL ORDER):
+LIAR_KING	SHIKSPEAR	1990	PRACTICE_HALL	9.99 USD
+NICE_TITLE	DA_VINCI	1999	HILEY_JOHNS	29.99 USD
+ROMAN_&_JULIET	SHIKSPEAR	1991	PRACTICE_HALL	11.99 USD
+WHITE_STORIES	NEW_BUSH	2001	WHITE_PRESS	20.99 USD
+WHO_CARES	BILL_GETS	2000	MICRO_HARD	0.99 USD
+:::::::::::::: EXAMPLE 3 ::::::::::::::::::::: 
+---------CONTENTS OF main3.cc FILE:-----------
+#include <iostream.h>
+#include "p2.h"
+// example program: main3.cc
+int main ()
+{
+	BOOK_SORT b(5);  // instantiate an object b with 5 books
+
+	b.SORT_PRICE(); 
+
+	return 0;
+}
+---------CONTENTS OF in.2 FILE:---------------
+1122	ROMAN_&_JULIET	SHIKSPEAR	PRACTICE_HALL	1991	11.99
+1111	LIAR_KING	SHIKSPEAR	PRACTICE_HALL	1990	9.99
+1133	WHO_CARES	BILL_GETS	MICRO_HARD	2000	0.99
+1234	NICE_TITLE	DA_VINCI	HILEY_JOHNS	1999	29.99
+1100	WHITE_STORIES	NEW_BUSH	WHITE_PRESS	2001	20.99
+---------EXPECTED CONTENTS OF out.2 FILE:-----
+THE LIST OF BOOKS BY THEIR PRICES (DESCENDING ORDER):
+29.99 USD	NICE_TITLE	DA_VINCI	1999
+20.99 USD	WHITE_STORIES	NEW_BUSH	2001
+11.99 USD	ROMAN_&_JULIET	SHIKSPEAR	1991
+9.99 USD	LIAR_KING	SHIKSPEAR	1990
+0.99 USD	WHO_CARES	BILL_GETS	2000
